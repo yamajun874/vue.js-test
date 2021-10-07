@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css\style.css">
+  <link rel="stylesheet" href="css\reset.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+  <!-- 問1 -->
+  <div id="app-first">
+    <h1>問1</h1>
+    <ul>
+      <li class="tab" v-on:click="contentClick('1')">タブ1</li>
+      <li class="tab" v-on:click="contentClick('2')">タブ2</li>
+      <li class="tab" v-on:click="contentClick('3')">タブ3</li>
+    </ul>
+
+    <ul>
+      <li v-show = "content === '1'">コンテンツ1</li>
+      <li v-show = "content === '2'">コンテンツ2</li>
+      <li v-show = "content === '3'">コンテンツ3</li>
+    </ul>
+  </div>
+  <!-- 問2 -->
+  <div id="app-second">
+    <h1>問2</h1>
+    <button v-on:click = "openModal">開く</button>
+    <div class="overlay" v-show = "showModal" v-on:click.self = "closeModal">
+      <div class="modal-wrapper">
+        <div class="modal-item">
+          <p>モーダルウィンドウ</p>
+          <button v-on:click = "closeModal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 問3 -->
+  <div id="app-third">
+    <h1>問3</h1>
+    <input type="text" v-model = "text" class = "input">
+      <p v-for= "user in this.filteredUsers" class = "user">{{user}}</p>
+  </div>
+
+<script>
+  // 問1
+  const sa = new Vue({
+    el: '#app-first',
+    data(){
+      return{
+        content: '1',
+      }
+    },
+    methods: {
+      contentClick: function(num){
+        this.content = num;
+      }
+    }
+  });
+
+  // 問2
+  const sb = new Vue({
+    el: '#app-second',
+    data(){
+      return {
+        showModal: false
+      }
+    },
+    methods: {
+      openModal(){
+        this.showModal = true;
+      },
+      closeModal(){
+        this.showModal = false;
+      }
+    }
+  });
+
+  // 問3
+  const sc = new Vue({
+    el: '#app-third',
+    data(){
+      return{
+        text: '',
+        users: ['佐藤', '山田', '鈴木', '田中']
+      }
+    },
+    computed: {
+      filteredUsers(){
+        return this.filterUsers();
+      }
+    },
+    methods: {
+      filterUsers() {
+        let filtered = [];
+        for (let i in this.users) {
+          let user = this.users[i];
+          if (user.indexOf(this.text) !== -1) {
+            filtered.push(user);
+          }
+        }
+        return filtered;
+      }
+    }
+  });
+</script>
+</body>
+
+</html>
